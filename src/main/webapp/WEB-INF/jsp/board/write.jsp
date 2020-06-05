@@ -1,12 +1,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page  pageEncoding="UTF-8" %>
 
+<script src='https://www.google.com/recaptcha/api.js'></script>
 
 <c:if test="${empty UID}">
     <script>location.href='/login/fail';</script>
 </c:if>
 
     <!-- 메인영역 시작 -->
+<script src='https://www.google.com/recaptcha/api.js'></script>
     <div id="main">
         <div class="margin30">
             <i class="fa fa-comments fa-2x"> 자유게시판</i>
@@ -53,11 +55,14 @@
                 </div><!-- 본문내용 -->
 
                 <div class="form-group row">
-                    <label class="col-form-label col-2 text-right">
+                    <label class="col-form-label col-2 text-right"
+                           for="g-recaptcha">
                         자동가입방지</label>
-                    <img src="../img/google_recaptcha.gif"
-                         width="50%" height="50%"
-                         style="margin-left: -5px">
+                    <div class="g-recaptcha"
+                         data-sitekey="6LfTlQAVAAAAAHjVxj1jCo6LUQjMBY2XxS_CQbNM"></div>
+                    <input type="hidden"
+                           name="g-recaptcha" id="g-recaptcha">
+                    <span style="color:red">${checkFail}</span>
                 </div><!-- 자동가입방지 -->
 
                 <div class="row justify-content-center"

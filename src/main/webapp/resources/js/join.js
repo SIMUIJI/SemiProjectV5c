@@ -1,4 +1,3 @@
-
 // agree
 $('#okagree').on('click', function() {
     if (!$('#agree1').is(':checked'))
@@ -18,11 +17,11 @@ $('#checkbtn').on('click', function() {
     if ($('#name').val() == '')
         alert('이름을 입력하세요');
     else if ($('#byear').val() == "년도" ||
-             $('#bmonth').val() == "월" ||
-             $('#bday').val() == "일" )
+        $('#bmonth').val() == "월" ||
+        $('#bday').val() == "일" )
         alert('생년월일을 선택하세요');
     else if (!$('#female').is(':checked') &&
-             !$('#male').is(':checked'))
+        !$('#male').is(':checked'))
         alert('성별을 선택하세요');
     else
         location.href =
@@ -53,7 +52,7 @@ $('#joinokbtn').on('click', function () {
         $('#name').focus();
 
     } else if( $('#jumin1').val() == '' ||
-               $('#jumin2').val() == '' ) {
+        $('#jumin2').val() == '' ) {
         alert('주민번호를 입력하세요!!');
         $('#jumin1').focus();
 
@@ -73,26 +72,29 @@ $('#joinokbtn').on('click', function () {
         alert('비밀번호를 확인하세요!!');
         $('#pwd').focus();
 
-    //}else if( $('#zip1').val() == '' || $('#zip2').val() == '') {
-    //    alert('우편번호를 입력하세요!!');
-    //    $('#zip1').focus();
+        //}else if( $('#zip1').val() == '' || $('#zip2').val() == '') {
+        //    alert('우편번호를 입력하세요!!');
+        //    $('#zip1').focus();
 
-    //}else if( $('#addr1').val() == '' || $('#addr2').val() == '') {
-    //    alert('나머지 주소를 입력하세요!!');
-    //    $('#addr2').focus();
+        //}else if( $('#addr1').val() == '' || $('#addr2').val() == '') {
+        //    alert('나머지 주소를 입력하세요!!');
+        //    $('#addr2').focus();
 
     }else if( $('#email1').val() == '' || $('#email2').val() == '' ) {
         alert('이메일을 입력하세요!!');
         $('#email1').focus();
-        
+
     }else if( $('#hp1').val() == '' ||
         $('#hp2').val() == '' || $('#hp3').val() == '') {
         alert('전화번호를 입력하세요!!');
         $('#hp1').focus();
 
+    }else if( grecaptcha.getResponse() == "") {
+        alert("자동가입방지 확인 필요");
     } else {
-		$('#joinfrm').submit();
-	}
+        $("#g-recaptcha").val(grecaptcha.getResponse());
+        $('#joinfrm').submit();
+    }
 }); // 회원가입완료
 
 $('#joinnobtn').on('click', function () {
@@ -104,108 +106,100 @@ $('#go2index').on('click', function () {
     location.href = '/index.do';
 }); // 메인으로
 
-// showzip
-// 우편번호 찾기 모달칭 표시
-$('#showzipbtn').on('click',function () {
+//checkuid
+//아이디 중복체크
+function checkuid() {
+    $.ajax({
+        url:'join/checkuid',
+        type:'GET',
+        data:{uid:$('#uid').val()}
+    })//비동기 요청
+        .done(function (data) {
+            //alert(data)
+            var msg = '사용 불가능한 아이디 입니다!!';
+            if(data == '0') {
+                msg = '사용가능한 아이디 입니다.';
+            }
+            $('#uidmsg').text(msg);
+        })//처리 완료
+        .fail(function (xhr,status,error) {
+            alert("오류:"+xhr.status+"/"+error);
+        });//처리 실패
+}
+$('#uid').on('blur',function () {
+    checkuid();
+});
+//showzip
+//우편번호 찾기 모달창 표시
+$("#showzipbtn").on('click',function () {
     $('#dong').val("");
     $('#addrlist').find('option').remove();
 
     $('#zipcode').modal('show');
-});
+});//모달창으로(초기화)
 
-// findzip
-// ajax로 우편번호 검색후 결과 출력
-// 살제요청 주소: /join/zipcode?dong=창신
+//findzip
+//ajax 로 우편번호 검색후 결과 출력
+//실제요청 주소 :/join/zipcode?dong=창신
 function findzipcode() {
-        $.ajax({
-            url: '/join/zipcode',
-            type: 'GET',
-            data: {dong: $('#dong').val()}
-        }) // 비동기 요청 정의
+
+    $.ajax({
+        url:'/join/zipcode',
+        type:'GET',
+        data:{dong:$('#dong').val()}
+    })//비동기 요청 정의
 
         .done(function (data) {
-            // 서버에서 넘어온 데이터는  JSON형이므로
-            // 출력시 Object로만 보여짐
-            // alert("데이터 : "+$('#dong').val() +"\n"+
-            //     "결과 : "+data);
-            var opts ="";
-            $.each(data, function () { // 행 단위 반복 처리
-                var zip="";
-                $.each(this, function (k, v) { // 키별로 값을 반복 처리
-                    if(v !=null) zip += v+ " ";
+            //서버에서 넘어온 데이터는 JSON 형이므로
+            //출력시 Object 로만 보여짐
+            //alert("데이터:"+$('#dong').val()+"\n"+
+            //    "결과:"+data);
+            var opts="";
+            $.each(data,function () { //행 단위 반복 처리
+                var zip ="";
+                $.each(this,function (k,v) {//키별로 값을 반복 처리
+                    if(v != null) zip +=v +" ";
                 });
-                opts += "<option>"+zip+"</option>"
+                opts += "<option>"+zip+"</option>";
             });
-
             $('#addrlist').find("option").remove();
-            // 기존에 option 태그를 제거
+            //기존의 option 태그를 제거
             $('#addrlist').append(opts);
-            // 새로만든  option태그를 추가힘
+            //새로 만든 option 태그를 추가함
 
+        })//요청후 넘어온 응답결과를 처리
 
-
-        })// 요청후 넘어온 응답결과를 처리
-        .fail(function (xhr, status, error) {
-            alert("오류 : "+xhr.status+"/"+error);
-        });// 요청 실패후 처리
-
+        .fail(function (xhr,status,error) {
+            alert("오류:"+xhr.status+"/"+error);
+        });//요청 실패후 처리
 }
-
-$("#findzipbtn").on('click',function(){
-    findzipcode()
+$("#findzipbtn").on('click',function () {
+    findzipcode();
 });
 
 //sendzip
 function sendzipcode() {
+
     var addr = $('#addrlist option:selected').val();
-    // 선택한 주소항목의 값을 변수로 지정
+    //선택한 주소항목의 값을 변수로 지정
 
     if(addr == undefined){
-        alert("주소를 입력하세요!!");
+        alert('주소를 입력하세요!!');
         return;
     }
+    var addrs = addr.split(" ");//공백으로 분리
 
-    var addrs = addr.split(" "); // 공백으로 분리
+    //분리된 주소를 지정한 위치로 보냄
+    $("#zip1").val(addrs[0].split("-")[0]);
+    $("#zip2").val(addrs[0].split("-")[1]);
 
-    // 분리된 추소를 지정한 위치로 보냄
-    // 우편번호 각 부분은 "-" 로 분리함
-    $('#zip1').val(addrs[0].split("-")[0]);
-    $('#zip2').val(addrs[0].split("-")[1]);
+    //공백으로 분리한 나머지 주소는 기본주소로 채움
+    $("#addr1").val(addrs[1]+" "+addrs[2]+" "+addrs[3]);
 
-    // 공백으로 분리한 나머지 주소는 기본주소로 채움
-    $('#addr1').val(addrs[1]+" "+addrs[2]+" "+addrs[3]);
-
-    // 우편번호 검색창 닫음
+    //우편번호 검색창 닫기
     $('#zipcode').modal('hide');
+
 }
-$('#sendzipbtn').on('click',function () {
+$("#sendzipbtn").on('click',function () {
     sendzipcode();
 });
-// checkuid
-// 아이디 중복체크
-function checkuid() {
-
-    $.ajax({
-        url: 'join/checkuid',
-        type: 'GET',
-        data: {uid: $('#uid').val()}
-    }) // 비동기 요청
-
-        .done(function (data) {
-
-            var msg = '사용 불가능한 아이디입니다!!';
-            if (data.trim() == '0')
-                msg = '사용가능한 아이디입니다!!';
-            $('#uidmsg').text(msg);
-
-        }) // 처리 완료
-
-        .fail(function (xhr, status, error) {
-            alert(xhr.status + "/" + error);
-        }); // 처리 실패
-    $('#uidmsg').text(msg);
-
-    $('#uid').on('blur', function () {
-        checkuid();
-    });
-}
