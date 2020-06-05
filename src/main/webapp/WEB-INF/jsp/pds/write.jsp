@@ -8,7 +8,7 @@
         </div> <!-- 타이틀 -->
 
         <div class="row margin1050">
-            <div class="col-6" >
+            <div class="col-6">
                <h4><i class="fa fa-plus-circle"></i>
                    새글쓰기</h4>
             </div>
@@ -22,8 +22,7 @@
         </div><!-- 버튼들 -->
 
         <div class="row mgnpdg15">
-            <form class="card card-body bg-light" method="post" id="pdfrm" name=pdfrm
-                enctype="multipart/form-data">
+            <form class="card card-body bg-light" method="post" id="pdfrm" name="pdfrm" enctype="multipart/form-data">
                 <div class="form-group row">
                     <label class="col-form-label col-2 text-right">
                         제목</label>
@@ -35,8 +34,7 @@
                     <label class="col-form-label col-2 text-right">
                         작성자</label>
                     <input type="text" id="userid" name="userid"
-                         class="form-control col-9" readonly
-                        value="987xyz" >
+                         class="form-control col-9" value="987xyz">
                 </div><!-- 작성자 -->
 
                 <div class="form-group row">
@@ -81,12 +79,10 @@
                 <div class="row justify-content-center"
                     style="margin-top: 55px">
                     <hr style="width:90%; color:grey; margin: 35px 0">
-                    <button type="button" class="btn btn-primary"
-                        id="pdregbtn">
+                    <button type="button" class="btn btn-primary" id="pdregbtn">
                         <i class="fa fa-check"></i>입력하기
                     </button>&nbsp;
-                    <button type="button" class="btn btn-danger"
-                        id="pdnobtn">
+                    <button type="button" class="btn btn-danger" id="pdnobtn">
                         <i class="fa fa-remove"></i>취소하기
                     </button>
                 </div><!-- 버튼들 -->

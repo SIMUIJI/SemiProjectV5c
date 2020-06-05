@@ -75,7 +75,7 @@
                     <input type="text"
                            class="form-control col-2 border-info"
                            name="uid" id="uid" maxlength="16">
-                    <span class="col-form-label col-7 text-danger">
+                    <span class="col-form-label col-7 text-danger" id="uidmsg">
                         6~16 자의 영문 소문자, 숫자와 특수기호(_)만
                         사용할 수 있습니다.
                     </span>
@@ -115,8 +115,8 @@
                            class="form-control col-1 border-info"
                            name="zip2" id="zip2" maxlength="3" readonly>
                     <span class="col-7">
-                        <button class="btn btn-dark" id="showzipbtn" type="button"
-                            data-toggle="modal" data-target="#zipcode">
+                        <button class="btn btn-dark" type="button" id="showzipbtn">
+                            <!--data-toggle="modal" data-target="#zipcode"-->
                             <i class="fa fa-question-circle"></i>
                             우편번호 찾기
                         </button>

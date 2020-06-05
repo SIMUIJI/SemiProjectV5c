@@ -29,7 +29,7 @@ public class GalleryController {
 
         return mv;
 
-    }
+}
 
     // view
     @RequestMapping(value = "/gallery/view")

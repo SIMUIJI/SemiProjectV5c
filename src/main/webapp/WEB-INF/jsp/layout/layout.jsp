@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -37,18 +38,17 @@
                         data-dismiss="modal">닫기</button>
             </div>
             <div class="modal-body">
-                <form id="loginfrm" method="post"
-                      action="login.do">
+                <form id="loginfrm" method="post">
                     <div class="form-group row text-center">
-                        <label for="uid"
+                        <label for="userid"
                                class="col-form-label col-4">아이디</label>
-                        <input type="text" id="uid" name="uid"
+                        <input type="text" id="userid" name="userid"
                                class="form-control col-6">
                     </div>
                     <div class="form-group row text-center">
-                        <label for="pwd"
+                        <label for="passwd"
                                 class="col-form-label col-4">비밀번호</label>
-                        <input type="password" id="pwd" name="pwd"
+                        <input type="password" id="passwd" name="passwd"
                                 class="form-control col-6">
                     </div>
                     <div class="form-group row text-center">
@@ -77,25 +77,11 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="/resources/bs4/js/bootstrap.min.js"></script>
 <script src="/resources/js/board.js"></script>
-<script src="/resources/js/join.js"></script>
 <script src="/resources/js/pds.js"></script>
+<script src="/resources/js/join.js"></script>
 <script src="/resources/js/gallery.js"></script>
+<script src="/resources/js/login.js"></script>
 
-<script>
-    // 회원가입버튼
-    $('#joinbtn').on('click', function () {
-       location.href = 'join/agree.do';
-    });
 
-    // 로그인하기
-    $('#loginbtn').on('click', function () {
-        if ($('#uid').val() == '')
-            alert('아이디를 입력하세요!');
-        else if ($('#pwd').val() == '')
-            alert('비밀번호를 입력하세요!');
-        else
-            $('#loginfrm').submit();
-    });
-</script>
 </body>
 </html>
